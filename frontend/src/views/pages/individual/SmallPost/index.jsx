@@ -75,19 +75,18 @@ function SmallPost(props) {
   console.log(post);
 
   const onLike = () => {
-    LikeAPI.LikePost(user.userId, post.id)
-      .then((res) => {
-        console.log(res);
-        onUpdatePost(post.id, {
-          ...post,
-          likeNum: isLike ? post.likeNum - 1 : post.likeNum + 1,
-        });
-
-        setIsLike(!isLike);
-      })
-      .catch((error) => {
-        console.log(error);
+    try {
+      
+      LikeAPI.LikePost(user.userId, post.id)
+      setPost({
+        ...post,
+        likeNum: isLike ? post.likeNum - 1 : post.likeNum + 1,
       });
+
+      setIsLike(!isLike);
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   const onClickComment = () => {
@@ -224,7 +223,9 @@ function SmallPost(props) {
                 <FaCircle />
               </p>
             </div>
-            <p className="individual-small-post-createdAt">{formatDate(post.createdAt)}</p>
+            <p className="individual-small-post-createdAt">
+              {formatDate(post.createdAt)}
+            </p>
           </div>
         </div>
         <div>

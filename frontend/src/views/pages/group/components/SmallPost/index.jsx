@@ -86,19 +86,17 @@ function SmallPost(props) {
     navigate("/editpost", { state: { post, user } }); // Đường dẫn đến trang bạn muốn chuyển hướng
   };
   const onLike = () => {
-    LikeAPI.LikePost(user.userId, post.id)
-      .then((res) => {
-        console.log(res);
-        onUpdatePost(post.id, {
-          ...post,
-          likeNum: isLike ? post.likeNum - 1 : post.likeNum + 1,
-        });
-
-        setIsLike(!isLike);
-      })
-      .catch((error) => {
-        console.log(error);
+    try {
+      LikeAPI.LikePost(user.userId, post.id);
+      setPost({
+        ...post,
+        likeNum: isLike ? post.likeNum - 1 : post.likeNum + 1,
       });
+
+      setIsLike(!isLike);
+    } catch (error) {
+      console.log(error);
+    }
   };
   const onClickComment = () => {
     setIsShowComment(!isShowComment);
